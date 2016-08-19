@@ -33,6 +33,7 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')    # element에 s가 붙어서 복수의 요소가 반환된다.
         self.assertTrue(
             any(row.text == '1: 공작깃털 사기' for row in rows),
+            '신규 작업이 테이블에 표시되지 않는다.',
         )
 
         self.fail('Finish the test!!')
