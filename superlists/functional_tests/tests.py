@@ -1,3 +1,4 @@
+import sys
 import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
@@ -5,6 +6,21 @@ from selenium.webdriver.common.keys import Keys
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'http://' + arg.split('=')[1]
+                return
+            super().setUpClass()
+            cls.server_url = cls.live_server_url
+
+    @classmethod
+    def tearDownClass(cls):
+        if cls.server_url == cls.live_server_url:
+            super().tearDownClass()
+
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)     # 암묵적 대
@@ -21,7 +37,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 로컬 주소를 하드코딩하는 대신에 live_server_url 메소드가 제공됨.
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
 
         # self.assertIn('To-Do', self.browser.title)
         # header_text = self.browser.find_element_by_tag_name('h1').text
@@ -50,7 +66,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('공작깃털 사기', page_text)
         self.assertNotIn('공작깃털을 이용해서 그물 만들기', page_text)
@@ -67,10 +83,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertNotIn('공작깃털 사기', page_text)
         self.assertIn('우유 사기', page_text)
 
-        self.fail('Finish the test!!')
-
     def test_layout_and_styling(self):
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         self.browser.set_window_size(1024, 768)
 
         inputbox = self.browser.find_element_by_id('id_new_item')
