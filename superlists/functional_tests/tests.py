@@ -39,12 +39,11 @@ class NewVisitorTest(LiveServerTestCase):
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
 
-        self.check_for_row_in_list_table('1. 공작깃털 사기')
-
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
         inputbox.send_keys(Keys.ENTER)
 
+        self.check_for_row_in_list_table('1. 공작깃털 사기')
         self.check_for_row_in_list_table('2. 공작깃털을 이용해서 그물 만들기')
 
         ## 새로운 브라우저 세션을 이용해서 에디스의 정보가
