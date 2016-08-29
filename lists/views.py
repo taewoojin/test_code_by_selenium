@@ -17,7 +17,7 @@ def view_list(request, list_id):
             item = Item(text=request.POST['item_text'], list=list_)
             item.full_clean()
             item.save()
-            return redirect('/lists/{0}/'.format(list_id))
+            return redirect(list_)
         except ValidationError:
             error = "You can't have an empty list item"
 
@@ -37,4 +37,4 @@ def new_list(request):
         list_.delete()
         error = "You can't have an empty list item"
         return render(request, 'home.html', {'error': error})
-    return redirect('/lists/{0}/'.format(list_.id))
+    return redirect(list_)  # redirect 함수의 인자로 객체를 넣으면 자동으로 get_absolute_url 함수가 호출된다.
