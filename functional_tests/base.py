@@ -31,3 +31,7 @@ class FunctionTest(StaticLiveServerTestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')  # element에 s가 붙어서 복수의 요소가 반환된다.
         self.assertIn(row_text, [row.text for row in rows])
+
+    # Input box 검색
+    def get_item_input_box(self):
+        return self.browser.find_element_by_id('id_text')

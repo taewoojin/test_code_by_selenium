@@ -1,4 +1,3 @@
-import time
 from .base import FunctionTest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -13,7 +12,7 @@ class NewVisitorTest(FunctionTest):
         # header_text = self.browser.find_element_by_tag_name('h1').text
         # self.assertIn('To-Do', header_text)
 
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             '작업 아이템 입력'
@@ -24,7 +23,7 @@ class NewVisitorTest(FunctionTest):
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
 
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
         inputbox.send_keys(Keys.ENTER)
 
@@ -41,7 +40,7 @@ class NewVisitorTest(FunctionTest):
         self.assertNotIn('공작깃털 사기', page_text)
         self.assertNotIn('공작깃털을 이용해서 그물 만들기', page_text)
 
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('우유 사기')
         inputbox.send_keys(Keys.ENTER)
 
